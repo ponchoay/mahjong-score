@@ -23,3 +23,15 @@
   --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-panel: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
+
+/* タップ時の青い枠線を非表示にし、キーボード操作時のみフォーカスリングを表示 */
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* date inputの見た目をtext/number inputと統一 */
+input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 2.5rem;
+}

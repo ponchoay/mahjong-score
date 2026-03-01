@@ -18,7 +18,14 @@ export function ScoreTable({
     return <p className="py-8 text-center text-gray-400">データがありません</p>;
   }
 
-  const sorted = [...scores].sort((a, b) => a.date.localeCompare(b.date));
+  const sorted = [...scores].sort((a, b) => {
+    const dateDiff =
+      new Date(a.date).getTime() - new Date(b.date).getTime();
+    if (dateDiff !== 0) return dateDiff;
+    return (
+      new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    );
+  });
 
   return (
     <div className="space-y-3">

@@ -14,6 +14,8 @@ export function GoogleLoginButton() {
       onError={() => {
         console.error("Google login failed");
       }}
+      width={280}
+      size="large"
     />
   );
 }
