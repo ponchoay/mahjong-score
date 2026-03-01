@@ -1,4 +1,4 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Navigate } from "react-router";
@@ -118,9 +118,9 @@ function AuthenticatedScorePage() {
               onDelete={handleDelete}
             />
           ) : (
-            <p className="py-8 text-center text-sm text-gray-400">
-              読み込み中...
-            </p>
+            <div className="py-8 text-center text-gray-400">
+              <FontAwesomeIcon icon={faSpinner} spin className="text-xl" />
+            </div>
           )}
         </Card>
       </div>

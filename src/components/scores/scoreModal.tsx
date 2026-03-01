@@ -27,6 +27,10 @@ export function ScoreModal({
 
     if (isOpen) {
       dialog.showModal();
+      // showModal()による自動フォーカスを解除し、不要なフォーカス枠線を防ぐ
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
     } else {
       dialog.close();
     }
