@@ -1,7 +1,6 @@
-import { faDice } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Navigate } from "react-router";
 import { GoogleLoginButton } from "../components/auth/googleLoginButton.tsx";
+import { LogoIcon } from "../components/ui/logoIcon.tsx";
 import { useAuth } from "../hooks/useAuth.ts";
 
 export function LoginPage() {
@@ -14,10 +13,7 @@ export function LoginPage() {
   return (
     <div className="flex min-h-svh flex-col items-center justify-center bg-teal-50 px-4">
       <div className="w-full max-w-sm rounded-panel bg-white p-10 shadow-panel text-center">
-        <FontAwesomeIcon
-          icon={faDice}
-          className="text-4xl text-brand-600 mb-3"
-        />
+        <LogoIcon className="mx-auto mb-3 h-16 w-16" showBackground={false} />
         <h1 className="text-2xl font-bold text-brand-800 mb-2">
           麻雀スコア管理
         </h1>
