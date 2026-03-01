@@ -51,10 +51,6 @@ function doPost(
       const config = getPublicConfig();
       return jsonResponse({ success: true, data: config });
     }
-    case "getYears": {
-      const years = getAvailableYears();
-      return jsonResponse({ success: true, data: years });
-    }
     case "getInitialData": {
       const data = getInitialData();
       return jsonResponse({ success: true, data });

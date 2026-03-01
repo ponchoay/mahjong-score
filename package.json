@@ -10,7 +10,7 @@
     "check": "biome check --write .",
     "gas:push": "cd gas && bunx @google/clasp push",
     "gas:typecheck": "cd gas && bunx tsc --noEmit",
-    "gas:deploy": "bun run gas:typecheck && bun run gas:push"
+    "gas:deploy": "bun run gas:typecheck && bun run gas:push && cd gas && bunx @google/clasp deploy -i $(grep VITE_GAS_URL ../.env | sed 's|.*macros/s/||' | sed 's|/exec.*||') && echo '\\n⚠ デプロイ後、GASエディタでアクセス権限が「全員」になっているか確認してください（clasp deployによりリセットされる場合があります）'"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.2.0",

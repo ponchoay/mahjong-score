@@ -12,8 +12,8 @@ export function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-teal-50">
-      <div className="rounded-panel bg-white p-10 shadow-panel text-center">
+    <div className="flex min-h-svh flex-col items-center justify-center bg-teal-50 px-4">
+      <div className="w-full max-w-sm rounded-panel bg-white p-10 shadow-panel text-center">
         <FontAwesomeIcon
           icon={faDice}
           className="text-4xl text-brand-600 mb-3"

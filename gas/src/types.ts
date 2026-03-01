@@ -17,14 +17,6 @@ interface ConfigData {
   allowedEmails: string;
 }
 
-interface SessionRecord {
-  token: string;
-  email: string;
-  name: string;
-  createdAt: string;
-  expiresAt: string;
-}
-
 interface InitialData {
   config: ConfigData;
   years: number[];

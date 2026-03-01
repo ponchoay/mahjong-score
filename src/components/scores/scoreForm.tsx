@@ -95,7 +95,7 @@ export function ScoreForm({
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          className="mt-1 w-full rounded-input border border-gray-300 px-3 py-2 transition-colors focus:border-brand-700 focus:ring-1 focus:ring-brand-600 focus:outline-none"
+          className="mt-1 w-full rounded-input border border-gray-300 px-3 py-2 text-sm transition-colors focus:border-brand-700 focus:ring-1 focus:ring-brand-600 focus:outline-none"
           required
         />
       </div>

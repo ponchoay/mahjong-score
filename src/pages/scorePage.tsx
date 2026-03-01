@@ -2,7 +2,6 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Navigate } from "react-router";
-import { useSWRConfig } from "swr";
 import { Layout } from "../components/layout/layout.tsx";
 import { DeleteDialog } from "../components/scores/deleteDialog.tsx";
 import { ScoreModal } from "../components/scores/scoreModal.tsx";
@@ -14,7 +13,7 @@ import { Card } from "../components/ui/card.tsx";
 import { useAuth } from "../hooks/useAuth.ts";
 import { useConfig } from "../hooks/useConfig.ts";
 import { useInitialData } from "../hooks/useInitialData.ts";
-import { useScores, useYears } from "../hooks/useScores.ts";
+import { useScores } from "../hooks/useScores.ts";
 import { useSummary } from "../hooks/useSummary.ts";
 import { apiPost } from "../lib/apiClient.ts";
 import type { ScoreFormData, ScoreRecord } from "../types/index.ts";
@@ -30,8 +29,7 @@ export function ScorePage() {
 }
 
 function AuthenticatedScorePage() {
-  useInitialData();
-  const { mutate: globalMutate } = useSWRConfig();
+  const { data: initialData, mutate: mutateInitialData } = useInitialData();
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState(currentYear);
   const [modalOpen, setModalOpen] = useState(false);
@@ -39,7 +37,7 @@ function AuthenticatedScorePage() {
   const [deleteTarget, setDeleteTarget] = useState<ScoreRecord | undefined>();
 
   const { data: config } = useConfig();
-  const { data: years } = useYears();
+  const years = initialData?.years;
   const { data: scores, mutate: mutateScores } = useScores(selectedYear);
   const summaries = useSummary(scores, config);
 
@@ -83,7 +81,7 @@ function AuthenticatedScorePage() {
     setModalOpen(false);
     setEditTarget(undefined);
     await mutateScores();
-    await globalMutate("years");
+    await mutateInitialData();
   };
 
   const handleConfirmDelete = async () => {

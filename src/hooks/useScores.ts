@@ -13,11 +13,3 @@ export function useScores(year: number) {
     },
   );
 }
-
-export function useYears() {
-  return useSWR("years", () => apiGet<number[]>("getYears"), {
-    revalidateOnFocus: false,
-    revalidateIfStale: false,
-    keepPreviousData: true,
-  });
-}
