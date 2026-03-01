@@ -1,11 +1,11 @@
 import {
-  faDice,
   faRightFromBracket,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth.ts";
+import { LogoIcon } from "../ui/logoIcon.tsx";
 
 export function Header() {
   const { logout } = useAuth();
@@ -24,7 +24,7 @@ export function Header() {
     <header className="bg-teal-600 text-white shadow-md">
       <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
         <h1 className="text-lg font-bold">
-          <FontAwesomeIcon icon={faDice} className="mr-2" />
+          <LogoIcon className="inline-block mr-1 h-8 w-8 -mt-0.5 align-middle" />
           麻雀スコア管理
         </h1>
         <button
