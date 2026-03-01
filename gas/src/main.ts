@@ -4,48 +4,31 @@ function jsonResponse(body: ApiResponse): GoogleAppsScript.Content.TextOutput {
   );
 }
 
+// GETリクエストはセキュリティ上の理由で無効化
+// トークンがURLクエリパラメータに含まれるとログやRefererヘッダで漏洩するため、全APIをPOSTに統一
 function doGet(
-  e: GoogleAppsScript.Events.DoGet,
+  _e: GoogleAppsScript.Events.DoGet,
 ): GoogleAppsScript.Content.TextOutput {
-  const action = e.parameter.action;
-  const token = e.parameter.token;
-  setEnv(e.parameter.env);
-
-  if (!validateSession(token)) {
-    return jsonResponse({ success: false, error: "UNAUTHORIZED" });
-  }
-
-  switch (action) {
-    case "getScores": {
-      const year = Number(e.parameter.year);
-      const scores = getScoresByYear(year);
-      return jsonResponse({ success: true, data: scores });
-    }
-    case "getConfig": {
-      const config = getConfig();
-      return jsonResponse({ success: true, data: config });
-    }
-    case "getYears": {
-      const years = getAvailableYears();
-      return jsonResponse({ success: true, data: years });
-    }
-    case "getInitialData": {
-      const data = getInitialData();
-      return jsonResponse({ success: true, data });
-    }
-    default:
-      return jsonResponse({
-        success: false,
-        error: "UNKNOWN_ACTION",
-        message: `Unknown action: ${action}`,
-      });
-  }
+  return jsonResponse({
+    success: false,
+    error: "METHOD_NOT_ALLOWED",
+    message: "GETリクエストは無効です。POSTを使用してください。",
+  });
 }
 
 function doPost(
   e: GoogleAppsScript.Events.DoPost,
 ): GoogleAppsScript.Content.TextOutput {
-  const body = JSON.parse(e.postData.contents);
+  let body: Record<string, unknown>;
+  try {
+    body = JSON.parse(e.postData?.contents ?? "{}");
+  } catch {
+    return jsonResponse({
+      success: false,
+      error: "INVALID_REQUEST",
+      message: "リクエストの形式が不正です",
+    });
+  }
   const action = body.action as string;
   setEnv(body.env as string);
 
@@ -59,10 +42,27 @@ function doPost(
   }
 
   switch (action) {
+    case "getScores": {
+      const year = Number(body.year);
+      const scores = getScoresByYear(year);
+      return jsonResponse({ success: true, data: scores });
+    }
+    case "getConfig": {
+      const config = getPublicConfig();
+      return jsonResponse({ success: true, data: config });
+    }
+    case "getYears": {
+      const years = getAvailableYears();
+      return jsonResponse({ success: true, data: years });
+    }
+    case "getInitialData": {
+      const data = getInitialData();
+      return jsonResponse({ success: true, data });
+    }
     case "addScore":
       return jsonResponse(
         addScore(
-          body.date,
+          body.date as string,
           Number(body.player1Score),
           Number(body.player2Score),
           Number(body.player3Score),
@@ -72,8 +72,8 @@ function doPost(
     case "updateScore":
       return jsonResponse(
         updateScore(
-          body.id,
-          body.date,
+          body.id as string,
+          body.date as string,
           Number(body.player1Score),
           Number(body.player2Score),
           Number(body.player3Score),
@@ -81,7 +81,7 @@ function doPost(
         ),
       );
     case "deleteScore":
-      return jsonResponse(deleteScore(body.id));
+      return jsonResponse(deleteScore(body.id as string));
     case "logout":
       deleteSession(token);
       return jsonResponse({ success: true });

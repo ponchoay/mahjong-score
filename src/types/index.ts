@@ -14,7 +14,6 @@ export interface Config {
   player2Name: string;
   player3Name: string;
   player4Name: string;
-  allowedEmails: string;
 }
 
 export interface PlayerSummary {

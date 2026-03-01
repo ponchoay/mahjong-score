@@ -32,9 +32,7 @@ function getAllScores(): ScoreRecord[] {
 }
 
 function getScoresByYear(year: number): ScoreRecord[] {
-  return getAllScores().filter(
-    (s) => new Date(s.date).getFullYear() === year,
-  );
+  return getAllScores().filter((s) => new Date(s.date).getFullYear() === year);
 }
 
 function getAvailableYears(): number[] {
@@ -48,8 +46,10 @@ function getAvailableYears(): number[] {
   return Array.from(years).sort((a, b) => a - b);
 }
 
-function getInitialData(): InitialData {
-  const config = getConfig();
+function getInitialData(): Omit<InitialData, "config"> & {
+  config: Omit<ConfigData, "allowedEmails">;
+} {
+  const config = getPublicConfig();
   const allScores = getAllScores();
 
   const scoresByYear: Record<number, ScoreRecord[]> = {};
@@ -115,13 +115,19 @@ function updateScore(
     if (String(data[i][0]) === id) {
       const row = i + 1;
       const now = new Date().toISOString();
-      sheet.getRange(row, 2, 1, 6).setValues([[date, p1, p2, p3, p4, data[i][6]]]);
+      sheet
+        .getRange(row, 2, 1, 6)
+        .setValues([[date, p1, p2, p3, p4, data[i][6]]]);
       sheet.getRange(row, 8).setValue(now);
       return { success: true, data: { id } };
     }
   }
 
-  return { success: false, error: "NOT_FOUND", message: "スコアが見つかりません" };
+  return {
+    success: false,
+    error: "NOT_FOUND",
+    message: "スコアが見つかりません",
+  };
 }
 
 function deleteScore(id: string): ApiResponse {
@@ -135,5 +141,9 @@ function deleteScore(id: string): ApiResponse {
     }
   }
 
-  return { success: false, error: "NOT_FOUND", message: "スコアが見つかりません" };
+  return {
+    success: false,
+    error: "NOT_FOUND",
+    message: "スコアが見つかりません",
+  };
 }

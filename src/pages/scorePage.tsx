@@ -21,6 +21,15 @@ import type { ScoreFormData, ScoreRecord } from "../types/index.ts";
 
 export function ScorePage() {
   const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <AuthenticatedScorePage />;
+}
+
+function AuthenticatedScorePage() {
   useInitialData();
   const { mutate: globalMutate } = useSWRConfig();
   const currentYear = new Date().getFullYear();
@@ -33,10 +42,6 @@ export function ScorePage() {
   const { data: years } = useYears();
   const { data: scores, mutate: mutateScores } = useScores(selectedYear);
   const summaries = useSummary(scores, config);
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
 
   const availableYears = years
     ? [...new Set([...years, currentYear])].sort((a, b) => b - a)

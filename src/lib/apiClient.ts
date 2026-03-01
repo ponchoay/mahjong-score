@@ -19,26 +19,7 @@ export async function apiGet<T>(
   action: string,
   params: Record<string, string> = {},
 ): Promise<T> {
-  const token = getSessionToken();
-  if (!token) handleUnauthorized();
-
-  const url = new URL(GAS_URL);
-  url.searchParams.set("action", action);
-  url.searchParams.set("token", token);
-  url.searchParams.set("env", APP_ENV);
-  for (const [key, value] of Object.entries(params)) {
-    url.searchParams.set(key, value);
-  }
-
-  const res = await fetch(url.toString());
-  const json: ApiResponse<T> = await res.json();
-
-  if (!json.success) {
-    if (json.error === "UNAUTHORIZED") handleUnauthorized();
-    throw new Error(json.message ?? json.error ?? "API error");
-  }
-
-  return json.data as T;
+  return apiPost<T>(action, params);
 }
 
 export async function apiPost<T>(

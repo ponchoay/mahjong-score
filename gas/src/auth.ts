@@ -69,7 +69,11 @@ function deleteSession(token: string): void {
 function handleLogin(googleIdToken: string): ApiResponse {
   const user = verifyGoogleIdToken(googleIdToken);
   if (!user) {
-    return { success: false, error: "INVALID_TOKEN", message: "無効なトークンです" };
+    return {
+      success: false,
+      error: "INVALID_TOKEN",
+      message: "無効なトークンです",
+    };
   }
 
   if (!isEmailAllowed(user.email)) {
