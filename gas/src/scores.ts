@@ -35,17 +35,6 @@ function getScoresByYear(year: number): ScoreRecord[] {
   return getAllScores().filter((s) => new Date(s.date).getFullYear() === year);
 }
 
-function getAvailableYears(): number[] {
-  const scores = getAllScores();
-  const years = new Set<number>();
-
-  for (const s of scores) {
-    years.add(new Date(s.date).getFullYear());
-  }
-
-  return Array.from(years).sort((a, b) => a - b);
-}
-
 function getInitialData(): Omit<InitialData, "config"> & {
   config: Omit<ConfigData, "allowedEmails">;
 } {
